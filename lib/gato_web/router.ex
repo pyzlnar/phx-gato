@@ -17,7 +17,7 @@ defmodule GatoWeb.Router do
   scope "/", GatoWeb do
     pipe_through :browser
 
-    resources "/gato",  GatoController, only: ~W[index create]a
+    resources "/gato",  GatoController, only: ~W[index create show update]a
 
     get "/", PageController, :index
   end

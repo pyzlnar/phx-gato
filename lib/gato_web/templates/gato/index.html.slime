@@ -1,4 +1,4 @@
-h3 Lets play gato!
+h3 Lets play gato (TicTacToe)!
 
 = form_for :none, Routes.gato_path(GatoWeb.Endpoint, :index), fn _ ->
-  = submit "Submit"
+  = submit "New Game"
