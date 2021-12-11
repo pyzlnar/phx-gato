@@ -1,0 +1,4 @@
+h3 Lets play gato!
+
+= form_for :none, Routes.gato_path(GatoWeb.Endpoint, :index), fn _ ->
+  = submit "Submit"
