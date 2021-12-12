@@ -53,15 +53,15 @@ config :gato, GatoWeb.Endpoint,
 # different ports.
 
 # Watch static and templates for browser reloading.
-config :gato, GatoWeb.Endpoint,
-  live_reload: [
-    patterns: [
-      ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
-      ~r"priv/gettext/.*(po)$",
-      ~r"lib/gato_web/(live|views)/.*(ex)$",
-      ~r"lib/gato_web/templates/.*(eex|slime?)$"
-    ]
-  ]
+# config :gato, GatoWeb.Endpoint,
+#   live_reload: [
+#     patterns: [
+#       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
+#       ~r"priv/gettext/.*(po)$",
+#       ~r"lib/gato_web/(live|views)/.*(ex)$",
+#       ~r"lib/gato_web/templates/.*(eex|slime?)$"
+#     ]
+#   ]
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"

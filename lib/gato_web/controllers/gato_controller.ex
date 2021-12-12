@@ -21,14 +21,14 @@ defmodule GatoWeb.GatoController do
   end
 
   def update(conn, params) do
-    case play_game(conn, params) do
-      {:ok, conn} ->
+    case Gato.Game.Play.run(params["id"], params["form"]["pos"]) do
+      {:ok, game} ->
         conn
-        |> render("show.html", game: conn.assigns.game)
+        |> render("show.html", game: game)
       error ->
-        Logger.error inspect(error)
+        Logger.error "Error playing #{inspect(error)}"
         conn
-        |> put_flash(:error, "Something went wrong")
+        |> put_flash(:error, "Something went wrong #{inspect(error)}")
         |> render("show.html", game: conn.assigns.game)
     end
   end
@@ -46,22 +46,5 @@ defmodule GatoWeb.GatoController do
         |> redirect(to: Routes.gato_path(conn, :index))
         |> halt
     end
-  end
-
-  defp play_game(conn, params) do
-    with pos when is_binary(pos)          <- params["form"]["pos"],
-         {_,_}   = move                   <- parse_pos(pos),
-         {state, %Game{} = game}
-           when state in [:ok, :finished] <- TicTacToe.play(params["id"], move)
-    do
-      {:ok, assign(conn, :game, game)}
-    end
-  end
-
-  defp parse_pos(pos) do
-    pos
-    |> String.split(",")
-    |> Enum.map(&String.to_integer/1)
-    |> List.to_tuple
   end
 end

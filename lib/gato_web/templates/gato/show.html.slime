@@ -1,10 +1,15 @@
 h3 Gato
 
 = form_for @conn, Routes.gato_path(@conn, :update, @conn.params["id"]), [method: :patch], fn _ ->
-  table
+  table.gato
     = for x <- 0..2 do
       tr
         = for y <- 0..2 do
           td= pos_to_string(@game, {x,y})
 
-  = submit "Play"
+  = if @game.state != :finished do
+    = submit "Play"
+  - else
+    = submit "Play", disabled: true
+
+  = link "Back", to: Routes.gato_path(@conn, :index), class: "btn"
