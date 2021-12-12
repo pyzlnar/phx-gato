@@ -1,11 +1,11 @@
 defmodule Gato.Game.Play do
-  alias TicTacToe.Game
+  alias Gato.Repo
 
   def run(id, position) when is_binary(position) do
     with {_,_} = move                     <- parse_position(position),
-         {state, %Game{} = game}
+         {state, %TicTacToe.Game{} = game}
            when state in [:ok, :finished] <- submit_move(id, move),
-         {:ok, _}                         <- save_game_if_finished(state, game)
+         {:ok, _}                         <- save_game_if_finished(state, id, game)
     do
       {:ok, game}
     end
@@ -23,12 +23,15 @@ defmodule Gato.Game.Play do
     TicTacToe.play(id, move)
   end
 
-  defp save_game_if_finished(state, game) do
+  defp save_game_if_finished(state, id, game) do
     case state do
-      :ok ->
-        {:ok, :not_persisted}
-      :finished ->
-        {:ok, :persisted}
+      :ok       -> {:ok, :not_persisted}
+      :finished -> persist_finished_game(id, game)
     end
+  end
+
+  defp persist_finished_game(id, game) do
+    Gato.Schema.Game.insert_changeset(id, game)
+    |> Repo.insert
   end
 end

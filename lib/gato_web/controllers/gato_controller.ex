@@ -28,7 +28,7 @@ defmodule GatoWeb.GatoController do
       error ->
         Logger.error "Error playing #{inspect(error)}"
         conn
-        |> put_flash(:error, "Something went wrong #{inspect(error)}")
+        |> put_flash(:error, "Something went wrong")
         |> render("show.html", game: conn.assigns.game)
     end
   end
