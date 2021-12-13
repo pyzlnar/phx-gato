@@ -7,6 +7,25 @@ defmodule Gato.Application do
 
   @impl true
   def start(_type, _args) do
+    start_ets_table()
+    start_supervisor()
+  end
+
+  # Tell Phoenix to update the endpoint configuration
+  # whenever the application is updated.
+  @impl true
+  def config_change(changed, _new, removed) do
+    GatoWeb.Endpoint.config_change(changed, removed)
+    :ok
+  end
+
+  # ----
+
+  def start_ets_table do
+    Gato.Game.MoveCache.new_table
+  end
+
+  def start_supervisor do
     children = [
       # Start the Ecto repository
       Gato.Repo,
@@ -24,13 +43,5 @@ defmodule Gato.Application do
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Gato.Supervisor]
     Supervisor.start_link(children, opts)
-  end
-
-  # Tell Phoenix to update the endpoint configuration
-  # whenever the application is updated.
-  @impl true
-  def config_change(changed, _new, removed) do
-    GatoWeb.Endpoint.config_change(changed, removed)
-    :ok
   end
 end

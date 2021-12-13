@@ -9,7 +9,7 @@ table
 
   = for game <- @games do
     tr
-      td= game.game_id
+      td= game.uuid
       td= pretty_state(game.state)
       td= pretty_winner(game.state, game.winner)
       td= pretty_played_at(game.updated_at)
