@@ -1,6 +1,5 @@
 defmodule GatoWeb.GatoController do
   use GatoWeb, :controller
-  alias TicTacToe.Game
   require Logger
 
   plug :set_game when action in ~W[show update]a
@@ -37,14 +36,25 @@ defmodule GatoWeb.GatoController do
 
   defp set_game(conn, _) do
     case TicTacToe.get_game(conn.params["id"]) do
-      {:ok, %Game{} = game} ->
+      {:ok, %TicTacToe.Game{} = game} ->
         conn
         |> assign(:game, game)
       _ ->
-        conn
-        |> put_flash(:error, "Game no longer exists")
-        |> redirect(to: Routes.gato_path(conn, :index))
-        |> halt
+        redirect_if_previous_game(conn, conn.params["id"])
+    end
+  end
+
+  defp redirect_if_previous_game(conn, id) do
+    if Gato.Game.Browser.exists?(id) do
+      conn
+      |> put_flash(:info, "Game already ended")
+      |> redirect(to: Routes.game_path(conn, :show, id))
+      |> halt
+    else
+      conn
+      |> put_flash(:error, "Game does not exist")
+      |> redirect(to: Routes.gato_path(conn, :index))
+      |> halt
     end
   end
 end

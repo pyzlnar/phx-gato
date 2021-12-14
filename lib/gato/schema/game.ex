@@ -10,7 +10,7 @@ defmodule Gato.Schema.Game do
     field :state,  Ecto.Enum, values: ~W[initial progress finished]a
     field :winner, :integer
 
-    has_many :game_moves, Schema.GameMove
+    has_many :moves, Schema.GameMove
 
     timestamps()
   end

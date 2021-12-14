@@ -1,0 +1,15 @@
+h3 Game Results
+
+table.gato
+
+table
+  tr
+    th State
+    td= pretty_state(@game.state)
+  tr
+    th Winner
+    td= pretty_winner(@game.state, @game.winner)
+
+  tr
+    th Played At
+    td= pretty_played_at(@game.updated_at)

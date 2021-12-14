@@ -11,5 +11,9 @@ h3 Gato
     = submit "Play"
   - else
     = submit "Play", disabled: true
+    = link "Back", to: Routes.gato_path(@conn, :index), class: "btn"
 
-  = link "Back", to: Routes.gato_path(@conn, :index), class: "btn"
+
+= if @game.state == :finished do
+  span= link "View Results", to: Routes.game_path(@conn, :show, @conn.params["id"])
+
